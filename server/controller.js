@@ -12,7 +12,7 @@ module.exports = {
     // User Callbacks
 
     getPictures: (req, res) => {
-        axios(`https://www.codewars.com/api/v1/users/${USER_NAME}`)
+        axios(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API_ACCESS_KEY}dd&text="${req.data}"&per_page=25`)
             .then ( (results) => {
                 // console.log(results.data)
                 res.status(200).send(results.data)} )
