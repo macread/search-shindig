@@ -12,24 +12,23 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
-import CloseIcon from '@material-ui/icons/Close';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
 const styles = theme => ({
-  container: {
+  search: {
     display: 'flex',
-    flexWrap: 'wrap',
+    justifyContent: 'center'
   },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 400,
+  },
+  gridList: {
+    justifyContent: 'center'
   }
+
 });
 
 function Transition(props) {
@@ -39,8 +38,7 @@ function Transition(props) {
 class App extends Component {
 
     constructor() {
-    super()
-        
+      super()
         this.state = {
           searchCriteria: '',
           photos: [],
@@ -83,45 +81,46 @@ class App extends Component {
     return (
 
         <div className="App">
+          <div class={classes.search}>
+            <TextField
+              id="search"
+              label="Search field"
+              type="search"
+              className={classes.textField}
+              margin="normal"
+              value={this.state.searchField}
+              onChange={ (e) => this.updateSearchCriteria(e.target.value)}
+              onKeyPress={(e) => this._onKeyPress(e)}
+            />
 
-              <TextField
-                id="search"
-                label="Search field"
-                type="search"
-                className={classes.textField}
-                margin="normal"
-                value={this.state.searchField}
-                onChange={ (e) => this.updateSearchCriteria(e.target.value)}
-                onKeyPress={(e) => this._onKeyPress(e)}
-              />
+            <Button variant="contained" color="primary" className={classes.button} onClick={() => {this.searchPictures()}}>
+              Search
+            </Button>
+          </div>
 
-              <Button variant="contained" color="primary" className={classes.button} onClick={() => {this.searchPictures()}}>
-                Search
-              </Button>
+          <GridList cellHeight={180} className={classes.gridList}>
+            {this.state.photos.map(photo => (
+                
+                  <GridListTile style={{ height: '200px',  width: '200px'}} onClick={() => this.handleClickOpen(`https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,photo.title)} key={photo.id}>
+                      <img src={`https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`} alt={photo.title} />
+                    <GridListTileBar
+                      title={photo.title}
+                    />
+                  </GridListTile>
+            ))}
+          </GridList>
 
-              <GridList cellHeight={180} className={classes.gridList}>
-                {this.state.photos.map(photo => (
-                    
-                      <GridListTile style={{ height: '200px',  width: '200px'}} onClick={() => this.handleClickOpen(`https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,photo.title)} key={photo.id}>
-                          <img src={`https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`} alt={photo.title} />
-                        <GridListTileBar
-                          title={photo.title}
-                        />
-                      </GridListTile>
-                ))}
-              </GridList>
-
-              <Dialog
-                open={this.state.open}
-                onClose={() => this.handleClose()}
-                TransitionComponent={Transition}
-              >
-              <Card className={classes.card}>
-                <CardContent>
-                  <img src={this.state.image} alt={this.state.title}/>
-                </CardContent>
-              </Card>
-              </Dialog>
+          <Dialog
+            open={this.state.open}
+            onClose={() => this.handleClose()}
+            TransitionComponent={Transition}
+          >
+          <Card className={classes.card}>
+            <CardContent>
+              <img src={this.state.image} alt={this.state.title}/>
+            </CardContent>
+          </Card>
+        </Dialog>
         </div>
     );
   }
