@@ -84,7 +84,7 @@ class App extends Component {
           <div class={classes.search}>
             <TextField
               id="search"
-              label="Search field"
+              label="Search"
               type="search"
               className={classes.textField}
               margin="normal"

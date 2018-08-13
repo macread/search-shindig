@@ -2,5 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: lightgrey
+  background-image: url('./assets/P8110056.jpg');
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
