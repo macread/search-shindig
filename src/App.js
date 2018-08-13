@@ -11,6 +11,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 
 import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
 import Slide from '@material-ui/core/Slide';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -111,16 +112,21 @@ class App extends Component {
           </GridList>
 
           <Dialog
-            open={this.state.open}
-            onClose={() => this.handleClose()}
-            TransitionComponent={Transition}
-          >
-          <Card className={classes.card}>
-            <CardContent>
-              <img src={this.state.image} alt={this.state.title}/>
-            </CardContent>
-          </Card>
-        </Dialog>
+              open={this.state.open}
+              onClose={() => this.handleClose()}
+              TransitionComponent={Transition}
+            >
+            <Card className={classes.card}>
+              <CardContent>
+                <img src={this.state.image} alt={this.state.title}/>
+              </CardContent>
+            </Card>
+            <DialogActions>
+            <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+              Close
+            </Button>
+          </DialogActions>
+          </Dialog>
         </div>
     );
   }
