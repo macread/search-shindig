@@ -16,6 +16,9 @@ import Slide from '@material-ui/core/Slide';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
+import 'intersection-observer'; // optional polyfill
+import Observer from '@researchgate/react-intersection-observer';
+
 const styles = theme => ({
   search: {
     display: 'flex',
@@ -61,28 +64,41 @@ class App extends Component {
       this.setState({ open: false });
     };
 
-  updateSearchCriteria(val){
-        this.setState({ searchCriteria: val})
-	}
-	
-	searchPictures(){
-		axios(`/api/search/?text=${this.state.searchCriteria}`)
-			.then( result => this.setState({photos: result.data.photos.photo}) )
-  }
-  
-  _onKeyPress(e){
-    if (e.charCode === 13) { // enter key pressed
-      e.preventDefault();
-      this.searchPictures();
+    updateSearchCriteria(val){
+          this.setState({ searchCriteria: val})
     }
-  }
+    
+    searchPictures(){
+      axios(`/api/search/?text=${this.state.searchCriteria}`)
+        .then( result => this.setState({photos: result.data.photos.photo}) )
+    }
+    
+    _onKeyPress(e){
+      if (e.charCode === 13) { // enter key pressed
+        e.preventDefault();
+        this.searchPictures();
+      }
+    }
+
+    handleIntersection(event) {
+      // console.log(event.isIntersecting);
+      let lazyImage = event.target;
+      lazyImage.src = lazyImage.dataset.src;
+      // lazyImageObserver.unobserve(lazyImage);
+    }
 
   render() {
     const { classes } = this.props;
+    //options for lazy loading
+    const options = {
+      onChange: this.handleIntersection,
+      root: '#scrolling-container',
+      rootMargin: '0% 0% 0%',
+    };
     return (
 
         <div className="App">
-          <div class={classes.search}>
+          <div className={classes.search}>
             <TextField
               id="search"
               label="Search"
@@ -103,7 +119,10 @@ class App extends Component {
             {this.state.photos.map(photo => (
                 
                   <GridListTile style={{ height: '200px',  width: '200px'}} onClick={() => this.handleClickOpen(`https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,photo.title)} key={photo.id}>
-                      <img src={`https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`} alt={photo.title} />
+                      {/* <img src={`https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`} alt={photo.title} /> */}
+                      <Observer {...options}>
+                        <img src={'./img/placeholder.png'} alt={photo.title} data-src={`https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`} />
+                      </Observer>
                     <GridListTileBar
                       title={photo.title}
                     />

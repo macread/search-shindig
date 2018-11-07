@@ -11,7 +11,7 @@ module.exports = {
     // User Callbacks
 
     searchPictures: (req, res) => {
-        let url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API_KEY}&text="${req.query.text}"&per_page=25&format=json&nojsoncallback=1`
+        let url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API_KEY}&text="${req.query.text}"&per_page=100&format=json&nojsoncallback=1`
         https.get(url, (results) => {
             let data = '';
             results.on('data', chunk => {

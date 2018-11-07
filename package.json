@@ -5,9 +5,11 @@
   "dependencies": {
     "@material-ui/core": "^1.4.3",
     "@material-ui/icons": "^2.0.1",
+    "@researchgate/react-intersection-observer": "^0.7.4",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
+    "intersection-observer": "^0.5.1",
     "material-ui": "^0.20.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -20,6 +22,6 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3005",
+  "proxy": "http://localhost:3010",
   "main": "./server/server.js"
 }
